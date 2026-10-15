@@ -1,0 +1,35 @@
+# Environment
+.env
+venv/
+.venv/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+*.egg
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs and results (keep .gitkeep)
+logs/*.jsonl
+logs/*.csv
+results/*.json
+results/*.csv
+results/*.html
+!results/.gitkeep
+!logs/.gitkeep
+
+# Streamlit
+.streamlit/secrets.toml
