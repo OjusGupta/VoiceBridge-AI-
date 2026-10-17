@@ -1,0 +1,5 @@
+-r requirements.txt
+# Optional: real-browser end-to-end checks (tests/e2e_*.py)
+playwright>=1.40
+# Optional: the legacy Streamlit UI (app.py) — no longer the primary interface
+streamlit>=1.28.0

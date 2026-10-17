@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VoiceBridge AI</title>
+<link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+<a class="skip" href="#composer-input">Skip to message box</a>
+<div class="shell">
+  <aside class="sidebar" aria-label="Primary">
+    <div class="brand"><span class="logo" aria-hidden="true">VB</span><div><strong>VoiceBridge AI</strong><small>Conversational Intelligence</small></div></div>
+    <button id="btn-new" class="btn primary wide" type="button">New conversation</button>
+    <nav aria-label="Pages">
+      <a class="nav" href="#chat" data-page="chat">Chat</a>
+      <a class="nav" href="#transcripts" data-page="transcripts">Transcripts</a>
+      <a class="nav" href="#evaluation" data-page="evaluation">Evaluation Lab</a>
+      <a class="nav" href="#analytics" data-page="analytics">Analytics</a>
+      <a class="nav" href="#architecture" data-page="architecture">System Architecture</a>
+      <a class="nav" href="#settings" data-page="settings">Settings</a>
+    </nav>
+    <div class="sidebar-foot">
+      <div class="kv"><span>Mode</span><b id="mode-label">…</b></div>
+      <div class="kv"><span>Prompt</span>
+        <b id="prompt-label">A</b></div>
+      <p class="note">Educational prototype. Not a lender; no real applications or rates.</p>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <h1 id="page-title">Chat</h1>
+      <div class="chips">
+        <span class="chip" id="chip-session" title="Session id">session —</span>
+        <span class="chip" id="chip-state" title="Conversation state">—</span>
+        <span class="chip" id="chip-voice" title="Voice support">voice: checking…</span>
+      </div>
+    </header>
+
+    <section class="chat" id="page-chat" aria-label="Conversation">
+      <div class="progress" aria-hidden="true"><i id="progress-bar"></i></div>
+      <div id="log" class="log" role="log" aria-live="polite" aria-relevant="additions"></div>
+      <div id="welcome" class="welcome" hidden>
+        <h2>Conversational Intelligence, Designed to Feel Human.</h2>
+        <p>Every message runs through the real Python pipeline: safety → intent → state machine → response → logging. Try one:</p>
+        <div id="examples" class="examples"></div>
+      </div>
+      <div id="banner" class="banner" role="status" hidden></div>
+
+      <div class="composer">
+        <div class="voice-bar">
+          <label class="toggle"><input type="checkbox" id="opt-speak"> Speak replies</label>
+          <label class="toggle"><input type="checkbox" id="opt-voicemode"> Voice conversation (auto-send)</label>
+          <button id="btn-stop-speak" class="btn ghost small" type="button" disabled>Stop speaking</button>
+          <span id="voice-status" class="voice-status" role="status">Idle</span>
+        </div>
+        <div class="row">
+          <button id="btn-mic" class="mic" type="button" aria-pressed="false" aria-label="Start voice input">
+            <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3Zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V21h2v-2.08A7 7 0 0 0 19 12h-2Z"/></svg>
+          </button>
+          <textarea id="composer-input" rows="1" maxlength="2000" placeholder="Type a message, or press the mic and speak…" aria-label="Message"></textarea>
+          <button id="btn-send" class="btn primary" type="button">Send</button>
+        </div>
+        <div class="row actions">
+          <button id="btn-restart" class="btn ghost small" type="button">Restart</button>
+          <button id="btn-end" class="btn ghost small" type="button">End conversation</button>
+        </div>
+      </div>
+    </section>
+    <section class="page" id="page-transcripts" hidden></section>
+    <section class="page" id="page-evaluation" hidden></section>
+    <section class="page" id="page-analytics" hidden></section>
+    <section class="page" id="page-architecture" hidden></section>
+    <section class="page" id="page-settings" hidden></section>
+  </main>
+</div>
+<script type="module" src="/static/js/app.js"></script>
+</body>
+</html>

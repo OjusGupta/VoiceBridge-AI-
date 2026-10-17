@@ -1,0 +1,67 @@
+# Environment — never commit .env
+.env
+.env.local
+.env.*.local
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+# Python bytecode
+__pycache__/
+*.py[cod]
+*.pyo
+*$py.class
+
+# Distribution / packaging
+*.egg-info/
+dist/
+build/
+*.egg
+.eggs/
+wheels/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*.suo
+*.user
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+ehthumbs.db
+desktop.ini
+
+# Logs and results — keep .gitkeep placeholders
+logs/*.jsonl
+logs/*.csv
+results/*.json
+results/*.csv
+results/*.html
+!results/.gitkeep
+!logs/.gitkeep
+
+# Test / coverage
+.pytest_cache/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+.tox/
+
+# Streamlit
+.streamlit/secrets.toml
+.streamlit/
+
+# Node (not used in this project, but guard against accidental addition)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
