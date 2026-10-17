@@ -1,0 +1,80 @@
+<svg viewBox="0 0 900 545" width="900" role="img" aria-label="Conversation state machine" font-family="Inter,system-ui,sans-serif" font-size="13">
+  <defs>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#6b7280"/>
+    </marker>
+  </defs>
+
+  <!-- State boxes -->
+  <!-- GREETING -->
+  <rect x="20" y="30" width="170" height="46" rx="9" fill="#1f2937" stroke="#374151" stroke-width="1.4"/>
+  <text x="105" y="50" text-anchor="middle" fill="#f3f4f6" font-weight="600">GREETING</text>
+  <text x="105" y="66" text-anchor="middle" fill="#6b7280" font-size="11">start</text>
+
+  <!-- CONSENT -->
+  <rect x="230" y="30" width="170" height="46" rx="9" fill="#1f2937" stroke="#374151" stroke-width="1.4"/>
+  <text x="315" y="50" text-anchor="middle" fill="#f3f4f6" font-weight="600">CONSENT</text>
+  <text x="315" y="66" text-anchor="middle" fill="#6b7280" font-size="11">asks permission</text>
+
+  <!-- INQUIRY_TYPE -->
+  <rect x="440" y="30" width="170" height="46" rx="9" fill="#1f2937" stroke="#374151" stroke-width="1.4"/>
+  <text x="525" y="50" text-anchor="middle" fill="#f3f4f6" font-weight="600">INQUIRY_TYPE</text>
+  <text x="525" y="66" text-anchor="middle" fill="#6b7280" font-size="11">which topic?</text>
+
+  <!-- BASIC_DETAILS -->
+  <rect x="650" y="30" width="170" height="46" rx="9" fill="#1f2937" stroke="#374151" stroke-width="1.4"/>
+  <text x="735" y="50" text-anchor="middle" fill="#f3f4f6" font-weight="600">BASIC_DETAILS</text>
+  <text x="735" y="66" text-anchor="middle" fill="#6b7280" font-size="11">optional detail</text>
+
+  <!-- CLARIFICATION (amber) -->
+  <rect x="300" y="170" width="260" height="46" rx="9" fill="#1f2937" stroke="#fbbf24" stroke-width="1.4"/>
+  <text x="430" y="190" text-anchor="middle" fill="#f3f4f6" font-weight="600">CLARIFICATION</text>
+  <text x="430" y="206" text-anchor="middle" fill="#6b7280" font-size="11">asks again (max 2)</text>
+
+  <!-- HUMAN_HANDOFF (amber) -->
+  <rect x="20" y="170" width="170" height="46" rx="9" fill="#1f2937" stroke="#fbbf24" stroke-width="1.4"/>
+  <text x="105" y="190" text-anchor="middle" fill="#f3f4f6" font-weight="600">HUMAN_HANDOFF</text>
+  <text x="105" y="206" text-anchor="middle" fill="#6b7280" font-size="11">reachable from any state</text>
+
+  <!-- NEXT_STEPS -->
+  <rect x="650" y="170" width="170" height="46" rx="9" fill="#1f2937" stroke="#374151" stroke-width="1.4"/>
+  <text x="735" y="190" text-anchor="middle" fill="#f3f4f6" font-weight="600">NEXT_STEPS</text>
+  <text x="735" y="206" text-anchor="middle" fill="#6b7280" font-size="11">guidance</text>
+
+  <!-- COMPLETED (cyan) -->
+  <rect x="650" y="310" width="170" height="46" rx="9" fill="#1f2937" stroke="#22d3ee" stroke-width="1.4"/>
+  <text x="735" y="330" text-anchor="middle" fill="#f3f4f6" font-weight="600">COMPLETED</text>
+  <text x="735" y="346" text-anchor="middle" fill="#6b7280" font-size="11">ends conversation</text>
+
+  <!-- Arrows: main flow -->
+  <path d="M190 53H230" fill="none" stroke="#6b7280" stroke-width="1.5" marker-end="url(#ar)"/>
+  <path d="M400 53H440" fill="none" stroke="#6b7280" stroke-width="1.5" marker-end="url(#ar)"/>
+  <text x="420" y="46" text-anchor="middle" fill="#6b7280" font-size="11">agrees</text>
+  <path d="M610 53H650" fill="none" stroke="#6b7280" stroke-width="1.5" marker-end="url(#ar)"/>
+  <text x="630" y="46" text-anchor="middle" fill="#6b7280" font-size="11">topic</text>
+
+  <!-- BASIC_DETAILS → NEXT_STEPS -->
+  <path d="M770 76V170" fill="none" stroke="#6b7280" stroke-width="1.5" marker-end="url(#ar)"/>
+  <text x="830" y="128" text-anchor="middle" fill="#6b7280" font-size="11">detail or skip</text>
+
+  <!-- NEXT_STEPS → COMPLETED -->
+  <path d="M735 216V310" fill="none" stroke="#6b7280" stroke-width="1.5" marker-end="url(#ar)"/>
+  <text x="790" y="268" text-anchor="middle" fill="#6b7280" font-size="11">any reply</text>
+
+  <!-- CONSENT → COMPLETED (declines) -->
+  <path d="M250 76V332H650" fill="none" stroke="#6b7280" stroke-width="1.5" marker-end="url(#ar)"/>
+  <text x="290" y="326" text-anchor="middle" fill="#6b7280" font-size="11">declines</text>
+
+  <!-- Clarification bracket: amber line from CONSENT, INQUIRY_TYPE, BASIC_DETAILS down to CLARIFICATION -->
+  <path d="M315 76V120M525 76V120M690 76V120M315 120H690" fill="none" stroke="#fbbf24" stroke-width="1.4"/>
+  <path d="M430 120V170" fill="none" stroke="#6b7280" stroke-width="1.5" marker-end="url(#ar)"/>
+  <text x="500" y="150" text-anchor="middle" fill="#6b7280" font-size="11">unclear answer</text>
+
+  <!-- Reading guide -->
+  <text x="20" y="410" fill="#6b7280" font-size="12">Reading guide</text>
+  <text x="20" y="432" fill="#6b7280" font-size="12">• Amber states are detours. From CONSENT, INQUIRY_TYPE or BASIC_DETAILS an unclear answer goes to CLARIFICATION (orange bracket).</text>
+  <text x="20" y="452" fill="#6b7280" font-size="12">• CLARIFICATION: a clear answer returns to the state it came from.</text>
+  <text x="20" y="472" fill="#6b7280" font-size="12">• A second unclear answer moves on: CONSENT → COMPLETED, INQUIRY_TYPE → BASIC_DETAILS, otherwise NEXT_STEPS.</text>
+  <text x="20" y="492" fill="#6b7280" font-size="12">• Human request (any state) → HUMAN_HANDOFF. There, "yes" → INQUIRY_TYPE; "no" or exit → COMPLETED.</text>
+  <text x="20" y="512" fill="#6b7280" font-size="12">• "stop / exit" (any state) → COMPLETED. "restart" (any state) → CONSENT. After COMPLETED the input is disabled.</text>
+</svg>

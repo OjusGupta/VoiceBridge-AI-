@@ -1,0 +1,102 @@
+<svg viewBox="0 0 1000 405" width="1000" role="img" aria-label="System architecture" font-family="Inter,system-ui,sans-serif" font-size="13">
+  <defs>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#6b7280"/>
+    </marker>
+  </defs>
+
+  <!-- Group: Browser -->
+  <rect x="10" y="10" width="240" height="385" rx="12" fill="none" stroke="#374151" stroke-dasharray="3 5"/>
+  <text x="22" y="28" fill="#6b7280" font-size="11" letter-spacing=".08em">BROWSER</text>
+
+  <!-- Group: Python backend -->
+  <rect x="330" y="10" width="660" height="385" rx="12" fill="none" stroke="#374151" stroke-dasharray="3 5"/>
+  <text x="342" y="28" fill="#6b7280" font-size="11" letter-spacing=".08em">PYTHON BACKEND (server.py + src/)</text>
+
+  <!-- Browser boxes -->
+  <rect x="30" y="50" width="200" height="46" rx="9" fill="#1f2937" stroke="#374151" stroke-width="1.4"/>
+  <text x="130" y="76" text-anchor="middle" fill="#f3f4f6" font-weight="600">User input</text>
+  <text x="130" y="90" text-anchor="middle" fill="#6b7280" font-size="11">typed, or spoken</text>
+
+  <rect x="30" y="125" width="200" height="52" rx="9" fill="#1f2937" stroke="#fbbf24" stroke-width="1.4"/>
+  <text x="130" y="149" text-anchor="middle" fill="#f3f4f6" font-weight="600">Speech-to-text</text>
+  <text x="130" y="165" text-anchor="middle" fill="#6b7280" font-size="11">browser-native, before sending</text>
+
+  <rect x="30" y="210" width="200" height="52" rx="9" fill="#1f2937" stroke="#374151" stroke-width="1.4"/>
+  <text x="130" y="234" text-anchor="middle" fill="#f3f4f6" font-weight="600">Web UI</text>
+  <text x="130" y="250" text-anchor="middle" fill="#6b7280" font-size="11">validates, sends, displays</text>
+
+  <rect x="30" y="300" width="200" height="46" rx="9" fill="#1f2937" stroke="#fbbf24" stroke-width="1.4"/>
+  <text x="130" y="318" text-anchor="middle" fill="#f3f4f6" font-weight="600">Text-to-speech</text>
+  <text x="130" y="334" text-anchor="middle" fill="#6b7280" font-size="11">optional, browser-native</text>
+
+  <!-- Backend boxes -->
+  <rect x="350" y="50" width="180" height="46" rx="9" fill="#1f2937" stroke="#374151" stroke-width="1.4"/>
+  <text x="440" y="70" text-anchor="middle" fill="#f3f4f6" font-weight="600">Input sanitising</text>
+  <text x="440" y="86" text-anchor="middle" fill="#6b7280" font-size="11">sanitize_user_input</text>
+
+  <rect x="560" y="50" width="180" height="46" rx="9" fill="#1f2937" stroke="#374151" stroke-width="1.4"/>
+  <text x="650" y="70" text-anchor="middle" fill="#f3f4f6" font-weight="600">Intent detection</text>
+  <text x="650" y="86" text-anchor="middle" fill="#6b7280" font-size="11">detect_intent (rules)</text>
+
+  <rect x="770" y="50" width="200" height="46" rx="9" fill="#1f2937" stroke="#6366f1" stroke-width="1.4"/>
+  <text x="870" y="70" text-anchor="middle" fill="#f3f4f6" font-weight="600">Conversation manager</text>
+  <text x="870" y="86" text-anchor="middle" fill="#6b7280" font-size="11">state machine</text>
+
+  <rect x="770" y="125" width="200" height="46" rx="9" fill="#1f2937" stroke="#374151" stroke-width="1.4"/>
+  <text x="870" y="145" text-anchor="middle" fill="#f3f4f6" font-weight="600">Response generator</text>
+
+  <rect x="560" y="110" width="180" height="44" rx="9" fill="#1f2937" stroke="#374151" stroke-width="1.4"/>
+  <text x="650" y="130" text-anchor="middle" fill="#f3f4f6" font-weight="600">LLM client</text>
+  <text x="650" y="146" text-anchor="middle" fill="#6b7280" font-size="11">only if API key is set</text>
+
+  <rect x="560" y="175" width="180" height="44" rx="9" fill="#1f2937" stroke="#374151" stroke-width="1.4"/>
+  <text x="650" y="195" text-anchor="middle" fill="#f3f4f6" font-weight="600">Local templates</text>
+  <text x="650" y="211" text-anchor="middle" fill="#6b7280" font-size="11">default, and LLM fallback</text>
+
+  <rect x="770" y="250" width="200" height="46" rx="9" fill="#1f2937" stroke="#374151" stroke-width="1.4"/>
+  <text x="870" y="270" text-anchor="middle" fill="#f3f4f6" font-weight="600">Output safety check</text>
+  <text x="870" y="286" text-anchor="middle" fill="#6b7280" font-size="11">check_response_safety</text>
+
+  <rect x="350" y="250" width="180" height="46" rx="9" fill="#1f2937" stroke="#374151" stroke-width="1.4"/>
+  <text x="440" y="270" text-anchor="middle" fill="#f3f4f6" font-weight="600">Transcript logger</text>
+  <text x="440" y="286" text-anchor="middle" fill="#6b7280" font-size="11">logs/transcripts.jsonl</text>
+
+  <rect x="350" y="320" width="180" height="44" rx="9" fill="#1f2937" stroke="#374151" stroke-width="1.4"/>
+  <text x="440" y="340" text-anchor="middle" fill="#f3f4f6" font-weight="600">Analytics</text>
+  <text x="440" y="356" text-anchor="middle" fill="#6b7280" font-size="11">metrics read from the log</text>
+
+  <rect x="560" y="320" width="180" height="44" rx="9" fill="#1f2937" stroke="#374151" stroke-width="1.4"/>
+  <text x="650" y="340" text-anchor="middle" fill="#f3f4f6" font-weight="600">Evaluation</text>
+  <text x="650" y="356" text-anchor="middle" fill="#6b7280" font-size="11">synthetic scenarios, own log</text>
+
+  <!-- Arrows -->
+  <path d="M230 236H290V73H350" fill="none" stroke="#6b7280" stroke-width="1.5" marker-end="url(#ar)"/>
+  <text x="272" y="160" text-anchor="middle" fill="#6b7280" font-size="11">HTTP</text>
+
+  <path d="M130 96V125" fill="none" stroke="#6b7280" stroke-width="1.5" marker-end="url(#ar)"/>
+  <path d="M130 177V210" fill="none" stroke="#6b7280" stroke-width="1.5" marker-end="url(#ar)"/>
+  <path d="M130 262V300" fill="none" stroke="#6b7280" stroke-width="1.5" marker-end="url(#ar)"/>
+  <text x="150" y="285" text-anchor="middle" fill="#6b7280" font-size="11">reply</text>
+
+  <path d="M530 73H560" fill="none" stroke="#6b7280" stroke-width="1.5" marker-end="url(#ar)"/>
+  <path d="M740 73H770" fill="none" stroke="#6b7280" stroke-width="1.5" marker-end="url(#ar)"/>
+  <path d="M870 96V125" fill="none" stroke="#6b7280" stroke-width="1.5" marker-end="url(#ar)"/>
+
+  <path d="M770 140H740" fill="none" stroke="#6b7280" stroke-width="1.5" marker-end="url(#ar)"/>
+  <text x="755" y="128" text-anchor="middle" fill="#6b7280" font-size="11">key set</text>
+
+  <path d="M770 160H755V197H740" fill="none" stroke="#6b7280" stroke-width="1.5" marker-end="url(#ar)"/>
+  <text x="650" y="238" text-anchor="middle" fill="#6b7280" font-size="11">no key / failed</text>
+
+  <path d="M870 171V250" fill="none" stroke="#6b7280" stroke-width="1.5" marker-end="url(#ar)"/>
+  <text x="925" y="215" text-anchor="middle" fill="#6b7280" font-size="11">candidate reply</text>
+
+  <path d="M770 273H530" fill="none" stroke="#6b7280" stroke-width="1.5" marker-end="url(#ar)"/>
+  <text x="650" y="267" text-anchor="middle" fill="#6b7280" font-size="11">log turn</text>
+
+  <path d="M440 296V320" fill="none" stroke="#6b7280" stroke-width="1.5" marker-end="url(#ar)"/>
+
+  <path d="M870 296V385H290V252H230" fill="none" stroke="#6b7280" stroke-width="1.5" marker-end="url(#ar)"/>
+  <text x="600" y="380" text-anchor="middle" fill="#6b7280" font-size="11">safe reply returned to the UI</text>
+</svg>
