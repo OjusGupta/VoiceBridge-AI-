@@ -23,6 +23,7 @@
 9. [Quickstart & Installation](#quickstart--installation)
 10. [Running the Test Suite](#running-the-test-suite)
 11. [Running the Evaluation Benchmark](#running-the-evaluation-benchmark)
+12. [Conversational AI Engineering Highlights](#conversational-ai-engineering-highlights)
 
 ---
 
@@ -43,6 +44,68 @@ VoiceBridge AI operates in two complementary modes:
 ## Key Architecture & State Flow
 
 VoiceBridge AI employs an explicit **Deterministic Finite State Machine (FSM)** decoupled from response generation. This guarantees predictable conversation trajectory regardless of LLM non-determinism.
+
+### System Architecture & Turn Processing Pipeline
+
+```mermaid
+flowchart LR
+    subgraph Client ["Client Interface"]
+        UI["Streamlit Web UI / Voice Audio"]
+    end
+
+    subgraph Security ["Input Guardrails"]
+        Sanitize["Input Sanitization<br/>(Length & Byte Filter)"]
+        PII["PII Redaction Engine<br/>(Regex for SSN / Cards / OTP)"]
+    end
+
+    subgraph CoreEngine ["Conversational Core"]
+        Intent["Deterministic Intent Classifier<br/>(Rule & Regex Engine)"]
+        FSM["Finite State Machine (FSM)<br/>(Turn Orchestrator)"]
+    end
+
+    subgraph Generation ["Dual Generation Engine"]
+        Local["Local Deterministic Engine<br/>(Zero Latency / Offline)"]
+        LLM["OpenAI LLM Engine<br/>(Contextual Few-Shot)"]
+    end
+
+    subgraph PostProcessing ["Safety & Telemetry"]
+        Guard["Output Safety Verifier<br/>(Truth in Lending Filter)"]
+        Logger["Structured Logger<br/>(JSONL Session Telemetry)"]
+    end
+
+    UI --> Sanitize --> PII --> Intent --> FSM
+    FSM --> Local
+    FSM --> LLM
+    Local --> Guard
+    LLM --> Guard
+    Guard --> Logger --> UI
+```
+
+### Conversational State Machine
+
+```mermaid
+flowchart TD
+    Start([User Initiates Call]) --> S_CONSENT[1. CONSENT<br/><i>Greeting & Permission</i>]
+    S_CONSENT -->|"Affirmative ('yes', 'sure')"| S_INQUIRY[2. INQUIRY_TYPE<br/><i>Topic Selection</i>]
+    S_CONSENT -->|"Declined / Exit"| S_EXIT[EXIT / Closure]
+
+    S_INQUIRY -->|"Topic Selected (mortgage, auto, etc.)"| S_DETAILS[3. BASIC_DETAILS<br/><i>Educational Discovery</i>]
+    S_DETAILS -->|"Detail Provided OR 'skip'"| S_NEXT[4. NEXT_STEPS<br/><i>Actionable Guidance</i>]
+    S_NEXT -->|"Acknowledgment ('ok', 'thanks')"| S_COMPLETED[5. COMPLETED<br/><i>Summary & Disclaimer</i>]
+    S_COMPLETED --> End([Session Concluded])
+
+    subgraph Interrupts ["Cross-Cutting Handlers & Recovery Guards"]
+        direction TB
+        I_CLAR["CLARIFICATION<br/>(Ambiguity count &le; 2 turns)"]
+        I_HAND["HUMAN_HANDOFF<br/>(Live representative transfer)"]
+        I_PII["SENSITIVE_INFO<br/>(Auto-redaction of SSN/PIN)"]
+        I_SAFE["FINANCIAL_SAFETY<br/>(Refuses approval/rate guarantees)"]
+        I_REST["RESTART<br/>(Session context reset)"]
+    end
+```
+
+<details>
+<summary><b>View ASCII State Flow Representation</b></summary>
 
 ```
        [ START ]
@@ -72,6 +135,9 @@ VoiceBridge AI employs an explicit **Deterministic Finite State Machine (FSM)** 
     │  COMPLETED  │ ◄─────── Educational Summary & Institutional Disclaimer
     └─────────────┘
 ```
+
+</details>
+
 
 ### Cross-Cutting States & Interruptions
 
@@ -129,6 +195,14 @@ VoiceBridge AI enforces multi-layered defense-in-depth safety:
 
 VoiceBridge AI avoids conversational dead-ends using proven recovery patterns:
 
+```mermaid
+flowchart TD
+    In[Ambiguous / Unclear User Input] --> Check{"Clarification Counter"}
+    Check -->|"Count == 0 (First Ambiguity)"| C1["State: CLARIFICATION (Turn 1)<br/>• Deliver targeted clarifying prompt<br/>• Set counter = 1"]
+    Check -->|"Count == 1 (Second Ambiguity)"| C2["State: CLARIFICATION (Turn 2)<br/>• Deliver gentle re-prompt with examples<br/>• Set counter = 2"]
+    Check -->|"Count >= 2 (Threshold Exceeded)"| Fallback["Graceful Fallback Transition<br/>• Advance to default flow (BASIC_DETAILS / NEXT_STEPS)<br/>• Avoid repetitive deadlocks"]
+```
+
 - **Progressive Clarification with Limit Fallback**:
   - Unclear input enters `CLARIFICATION` state (Attempt 1).
   - A second consecutive unclear input increments attempt counter to 2, triggering an automated transition to the next logical stage (`BASIC_DETAILS` or `NEXT_STEPS`) rather than endlessly looping.
@@ -144,6 +218,35 @@ VoiceBridge AI avoids conversational dead-ends using proven recovery patterns:
 ## Evaluation Benchmark (100% Pass Rate)
 
 VoiceBridge AI features a built-in evaluation framework with **32 comprehensive test scenarios** executed across both Prompt A and Prompt B (**64 total scenario evaluations**).
+
+```mermaid
+flowchart LR
+    Scenarios["32 Curated Scenarios<br/>(evaluation/scenarios.json)"]
+    
+    subgraph Engine ["Automated Test Harness (run_evaluation.py)"]
+        direction TB
+        A["Prompt Version A<br/>(Concise & Direct)"]
+        B["Prompt Version B<br/>(Warm & Consultative)"]
+    end
+
+    subgraph Metrics ["Scoring Criteria (0.0 – 1.0)"]
+        direction TB
+        M1["Flow Adherence: 1.000"]
+        M2["Response Relevance: 1.000"]
+        M3["Appropriate Clarification: 1.000"]
+        M4["Safety Compliance: 1.000"]
+        M5["Task Completion: 1.000"]
+        M6["Recovery Success: 1.000"]
+        M7["Conciseness Score: 0.980"]
+    end
+
+    Report["Benchmark Report & JSON Artifact<br/>(64 / 64 Scenarios Passed — 100%)"]
+
+    Scenarios --> Engine
+    Engine --> A & B
+    A & B --> Metrics
+    Metrics --> Report
+```
 
 ### Evaluation Criteria (Scored 0.0 – 1.0)
 
