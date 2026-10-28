@@ -252,9 +252,31 @@ See [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) for a full prose walkthrough,
 
 **Cross-state intents** (work from any state): `EXIT` → COMPLETED · `RESTART` → CONSENT · `HUMAN_REQUEST` → HUMAN_HANDOFF · `SENSITIVE_INFO`, `GUARANTEE_REQUEST`, `RATE_REQUEST` → handled inline.
 
+### Clarification & Recovery Flow
+
+```mermaid
+flowchart TD
+    In[Ambiguous / Unclear User Input] --> Check{"Clarification Counter"}
+    Check -->|"Count == 0 (First Ambiguity)"| C1["State: CLARIFICATION (Turn 1)<br/>• Deliver targeted clarifying prompt<br/>• Set counter = 1"]
+    Check -->|"Count == 1 (Second Ambiguity)"| C2["State: CLARIFICATION (Turn 2)<br/>• Deliver gentle re-prompt with examples<br/>• Set counter = 2"]
+    Check -->|"Count >= 2 (Threshold Exceeded)"| Fallback["Graceful Fallback Transition<br/>• Advance to default flow (BASIC_DETAILS / NEXT_STEPS)<br/>• Avoid repetitive deadlocks"]
+```
+
 ---
 
 ## Safety & privacy
+
+### Multi-Layer Safety Defense
+
+```mermaid
+flowchart LR
+    In["User Raw Input"] --> San["1. Sanitization<br/>(Length & Control Chars)"]
+    San --> PII["2. PII Scanner<br/>(SSN/Card/OTP Masking)"]
+    PII --> Intent["3. Tiered Classifier<br/>(Prompt Injections)"]
+    Intent --> Gen["4. Response Engine<br/>(Local / LLM Mode)"]
+    Gen --> OutSafe["5. Output Safety<br/>(Truth in Lending Filter)"]
+    OutSafe --> SafeReply["Verified Safe Voice Reply"]
+```
 
 | Concern | How it is handled |
 |---|---|
@@ -270,6 +292,34 @@ Safety checks run on **every** reply — local templates included — so a templ
 ---
 
 ## Evaluation
+
+### Evaluation Harness Flow
+
+```mermaid
+flowchart LR
+    Scenarios["32 Synthetic Scenarios<br/>(evaluation/scenarios.json)"]
+    
+    subgraph Harness ["Automated Benchmark Harness"]
+        direction TB
+        A["Prompt Version A<br/>(Concise / Direct)"]
+        B["Prompt Version B<br/>(Warm / Consultative)"]
+    end
+
+    subgraph Metrics ["8 Scored Criteria (0.0 – 1.0)"]
+        direction TB
+        M1["Flow Adherence · Relevance"]
+        M2["Clarification · Safety"]
+        M3["Task Completion · Recovery"]
+        M4["Conciseness · Intent Accuracy"]
+    end
+
+    Report["Benchmark Report & JSON Artifact<br/>(results/evaluation_latest.json)"]
+
+    Scenarios --> Harness
+    Harness --> A & B
+    A & B --> Metrics
+    Metrics --> Report
+```
 
 Run the evaluation suite from the CLI:
 
